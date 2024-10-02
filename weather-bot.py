@@ -127,6 +127,38 @@ def get_last_message(roomId):
     return json_data['items'][0]
 
 
+def post_message(roomId, text):
+    '''
+    posts a message into Webex space
+    '''
+
+    # Define base URL
+    base_url = 'https://webexapis.com/v1/messages'
+
+    # Define body
+    body = {
+        'roomId': roomId,
+        'text': text
+    }
+
+    # Define headers
+    headers = {
+        'Authorization': 'Bearer ' + WEBEX_KEY
+    }
+
+    # Perform the request
+    resp = requests.post(
+        base_url,
+        headers=headers,
+        json=body
+    )
+
+    # Extract the result
+    json_data = resp.json()
+    
+    return
+
+
 
 # coords = geocode('Mexico city')
 # weather = get_weather(coords[0], coords[1])
@@ -134,7 +166,13 @@ def get_last_message(roomId):
 
 
 print(get_last_message('Y2lzY29zcGFyazovL3VzL1JPT00vMzA0MWM3MzAtN2ZkYS0xMWVmLTg1ZWQtM2QzZThkNTU3MjJl'))
+print(post_message(
+    'Y2lzY29zcGFyazovL3VzL1JPT00vMzA0MWM3MzAtN2ZkYS0xMWVmLTg1ZWQtM2QzZThkNTU3MjJl',
+    'This is sent from Python'
+))
 
+
+# roomId: 'Y2lzY29zcGFyazovL3VzL1JPT00vMzA0MWM3MzAtN2ZkYS0xMWVmLTg1ZWQtM2QzZThkNTU3MjJl'
 
 # while True:
 #     pass
