@@ -36,6 +36,7 @@ def geocode(location):
     if len(resp_data['hits']) == 0:
         return
     
+    # Extract data from JSON
     lat = resp_data['hits'][0]['point']['lat']
     lon = resp_data['hits'][0]['point']['lng']
 
@@ -43,15 +44,50 @@ def geocode(location):
 
     return coords
 
-def get_weather(lat, lon, units='metric'):
+def get_weather(lat, lon, units='metric', lang='en'):
     '''
     Retrives weather information for location identified by lat and lon
     Returns: TODO
     '''
 
+    # Define base URL
+    base_url = 'https://api.openweathermap.org/data/2.5/weather'
 
-    return
+    # Prepare parameters
+    # lat={lat}&lon={lon}&appid={API key}
+    params = {
+        'appid': OPENWEATHERMAP_KEY,
+        'lat': lat,
+        'lon': lon,
+        'units': units,
+        'lang': lang
+    }
 
+    # Perform the request
+    resp = requests.get(
+        base_url,
+        params=params
+    )
+
+    # Check if request was successful
+    if resp.status_code != 200:
+        return
+
+    # Extract data from JSON
+    json_data = resp.json()
+
+    result = {
+        'temp': json_data['main']['temp'],
+        'feels_like': json_data['main']['feels_like'],
+        'humidity': json_data['main']['humidity'],
+        'description': json_data['weather'][0]['description'],
+        'icon': json_data['weather'][0]['icon']
+    }
+
+    return result
+
+
+print(get_weather(52.510885, 13.3989367))
 
 
 # define API base URLs - inside functions
