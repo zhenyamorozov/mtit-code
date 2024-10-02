@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import time
 
 # Get all API keys from env
 WEBEX_KEY = os.getenv('WEBEX_KEY')
@@ -119,6 +120,10 @@ def get_last_message(roomId):
         headers=headers
     )
 
+    # Check if request was successful
+    if resp.status_code != 200:
+        return
+
     # Check if the call was successful
     json_data = resp.json()
 
@@ -153,29 +158,77 @@ def post_message(roomId, text):
         json=body
     )
 
+    # Check if request was successful
+    if resp.status_code != 200:
+        return
+
     # Extract the result
     json_data = resp.json()
-    
-    return
+
+    return json_data
 
 
+weather_icons = {
+    '01': '☀️',
+    '02': '⛅',
+    '03': '☁️',
+    '04': '☁️',
+    '09': '🌧️',
+    '10': '🌦️',
+    '11': '⛈️',
+    '13': '❄️',
+    '50': '🌫️'
+}
 
-# coords = geocode('Mexico city')
-# weather = get_weather(coords[0], coords[1])
-# print(json.dumps(weather, indent=4))
+print('Welcome to the Webex Weather Bot! ')
+print('WWB lets you request weather information for any place in the world!')
+roomId = input('Please enter the ID of the room to monitor: ')
+
+# post_message(roomId, 'Welcome to the weather bot. Ask about weather with a command like this: /Berlin')
 
 
-print(get_last_message('Y2lzY29zcGFyazovL3VzL1JPT00vMzA0MWM3MzAtN2ZkYS0xMWVmLTg1ZWQtM2QzZThkNTU3MjJl'))
-print(post_message(
-    'Y2lzY29zcGFyazovL3VzL1JPT00vMzA0MWM3MzAtN2ZkYS0xMWVmLTg1ZWQtM2QzZThkNTU3MjJl',
-    'This is sent from Python'
-))
+while True:
+    # Get the last message in the room
+    last_message = get_last_message(roomId)
+
+    # Check if message is a command
+    if last_message['text'][0] == '/':
+
+        # Strip the leading /
+        location = last_message['text'].strip('/')
+
+        # Retrieve coordinates
+        coords = geocode(location)
+
+        if not coords:
+            post_message(roomId, 'The location is not recognized.')
+            continue
+
+        # Retrieve weather
+        weather = get_weather(coords[0], coords[1])
+
+        if not weather:
+            post_message(roomId, 'Could not get weather')
+            continue
+
+        # Post weather
+        icon = weather_icons[weather['icon'].strip('dn')]
+        post_message(
+            roomId,
+        # print(
+            f'''{icon}  {weather['description']}
+Temperature: {weather['temp']}
+Feels like: {weather['feels_like']}
+Humidity: {weather['humidity']}'''
+        )
+
+    time.sleep(5)
 
 
-# roomId: 'Y2lzY29zcGFyazovL3VzL1JPT00vMzA0MWM3MzAtN2ZkYS0xMWVmLTg1ZWQtM2QzZThkNTU3MjJl'
+# ask user for room to monitor
 
 # while True:
-#     pass
+
     # retrieve the last message from the room - build a function 
     
     # check if the last message in the room starts with /
