@@ -1,5 +1,6 @@
 import os
 import requests
+import json
 
 # Get all API keys from env
 WEBEX_KEY = os.getenv('WEBEX_KEY')
@@ -47,7 +48,12 @@ def geocode(location):
 def get_weather(lat, lon, units='metric', lang='en'):
     '''
     Retrives weather information for location identified by lat and lon
-    Returns: TODO
+    Returns: a dict with the following keys:
+        'temp',
+        'feels_like',
+        'humidity',
+        'description',
+        'icon'
     '''
 
     # Define base URL
@@ -87,14 +93,54 @@ def get_weather(lat, lon, units='metric', lang='en'):
     return result
 
 
-print(get_weather(52.510885, 13.3989367))
+def get_last_message(roomId):
+    '''
+    Retrieve the last message from the Webex space.
+    '''
+
+    # Define base URL
+    base_url = 'https://webexapis.com/v1/messages'
+
+    # Define parameters
+    params = {
+        'roomId': roomId,
+        'max': 1
+    }
+
+    # Define headers
+    headers = {
+        'Authorization': 'Bearer ' + WEBEX_KEY
+    }
+
+    # Perform the API call
+    resp = requests.get(
+        base_url,
+        params=params,
+        headers=headers
+    )
+
+    # Check if the call was successful
+    json_data = resp.json()
+
+    # Extract the data from JSON
+
+    return json_data['items'][0]
 
 
-# define API base URLs - inside functions
+
+# coords = geocode('Mexico city')
+# weather = get_weather(coords[0], coords[1])
+# print(json.dumps(weather, indent=4))
+
+
+print(get_last_message('Y2lzY29zcGFyazovL3VzL1JPT00vMzA0MWM3MzAtN2ZkYS0xMWVmLTg1ZWQtM2QzZThkNTU3MjJl'))
+
 
 # while True:
 #     pass
-    # check if the last message in the room starts with / - build a function
+    # retrieve the last message from the room - build a function 
+    
+    # check if the last message in the room starts with /
 
     # strip the /
 
