@@ -96,7 +96,7 @@ def get_weather(lat, lon, units='metric', lang='en'):
 
 def get_last_message(roomId):
     '''
-    Retrieve the last message from the Webex space.
+    Retrieves the last message from the Webex space.
     '''
 
     # Define base URL
@@ -134,7 +134,7 @@ def get_last_message(roomId):
 
 def post_message(roomId, text):
     '''
-    posts a message into Webex space
+    Posts a message into Webex space
     '''
 
     # Define base URL
@@ -215,7 +215,6 @@ while True:
         icon = weather_icons[weather['icon'].strip('dn')]
         post_message(
             roomId,
-        # print(
             f'''{icon}  {weather['description']}
 Temperature: {weather['temp']}
 Feels like: {weather['feels_like']}
@@ -224,6 +223,7 @@ Humidity: {weather['humidity']}'''
 
     time.sleep(5)
 
+# Application flow:
 
 # ask user for room to monitor
 
