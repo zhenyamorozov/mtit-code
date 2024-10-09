@@ -47,13 +47,19 @@ config_data = f'''
 </config>
 '''
 
+# Handle exceptions raised in the NETCONF operation
 try:
-    m.edit_config(target='running', config=config_data)
+    netconf_reply = m.edit_config(target='running', config=config_data)
+    print(netconf_reply)
 except Exception as ex:
     print('Something went wrong')
     print(ex)
     print(ex.info)
-
-# print(netconf_reply)
+    
+# Change ncclient manager exception raise mode
+m.raise_mode = 0
+# Call NETCONF function with exceptions suppressed
+netconf_reply = m.edit_config(target='running', config=config_data)
+print(netconf_reply)
 
 print('End of the program')
