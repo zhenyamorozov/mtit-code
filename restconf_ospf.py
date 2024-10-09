@@ -85,10 +85,10 @@ def configure_ospf(router_ip, router_id, networks):
 
 
 # Configure R1 interfaces
-configure_interface('192.168.56.101', 'Loopback100', '192.168.100.1', '255.255.255.0')
-configure_interface('192.168.56.101', 'Loopback101', '192.168.101.1', '255.255.255.0')
-configure_interface('192.168.56.101', 'Loopback102', '192.168.102.1', '255.255.255.0')
-configure_interface('192.168.56.101', 'Loopback103', '192.168.103.1', '255.255.255.0')
+configure_interface(router1_ip, 'Loopback100', '192.168.100.1', '255.255.255.0')
+configure_interface(router1_ip, 'Loopback101', '192.168.101.1', '255.255.255.0')
+configure_interface(router1_ip, 'Loopback102', '192.168.102.1', '255.255.255.0')
+configure_interface(router1_ip, 'Loopback103', '192.168.103.1', '255.255.255.0')
 
 # Configure R1 OSPF process and networks
 nets = [
@@ -118,14 +118,14 @@ nets = [
         'area': 0
     }
 ]
-configure_ospf('192.168.56.101', '0.0.0.1', nets)
+configure_ospf(router1_ip, '0.0.0.1', nets)
 
 
 # Configure R2 interfaces
-configure_interface('192.168.56.102', 'Loopback0', '10.0.0.1', '255.255.255.224')
-configure_interface('192.168.56.102', 'Loopback1', '10.0.0.33', '255.255.255.224')
-configure_interface('192.168.56.102', 'Loopback2', '10.0.0.65', '255.255.255.224')
-configure_interface('192.168.56.102', 'Loopback3', '10.0.0.97', '255.255.255.224')
+configure_interface(router2_ip, 'Loopback0', '10.0.0.1', '255.255.255.224')
+configure_interface(router2_ip, 'Loopback1', '10.0.0.33', '255.255.255.224')
+configure_interface(router2_ip, 'Loopback2', '10.0.0.65', '255.255.255.224')
+configure_interface(router2_ip, 'Loopback3', '10.0.0.97', '255.255.255.224')
 
 # Configure R2 OSPF process and networks
 nets = [
@@ -155,5 +155,5 @@ nets = [
         'area': 0
     }
 ]
-configure_ospf('192.168.56.102', '0.0.0.2', nets)
+configure_ospf(router2_ip, '0.0.0.2', nets)
 
