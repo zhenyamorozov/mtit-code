@@ -1,0 +1,9 @@
+| **Feature**                   | **Ansible**                 | **Terraform**               | **Puppet**                  | **Chef**                    | **SaltStack**                     |
+|-------------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------------|
+| **Vendor**                    | Red Hat                     | HashiCorp                   | Puppet, Inc.                | Progress                    | VMware                            |
+| **Agentless/Agent-Based**     | Agentless                   | Agentless                   | Agent-Based                 | Agent-Based                 | Flexible (Agentless and Agent-Based) |
+| **Primary Use Case**          | Configuration Management    | Infrastructure Provisioning | Configuration Management    | Configuration Management    | Event-Driven Automation           |
+| **Configuration Language**    | YAML                        | HCL                         | Puppet DSL                  | Ruby                        | YAML, Jinja                       |
+| **State Management**          | No                          | Yes                         | Yes                         | Yes                         | Yes                               |
+| **Extensibility**             | Extensive Modules           | Broad Provider Ecosystem    | Extensive Modules           | Chef Supermarket            | Pluggable, Extensible Modules     |
+| **Ease of Use**               | Simple, Readable Playbooks  | Modular, Reusable Templates | Declarative Language        | Ruby-Based DSL              | Flexible, High-Speed              |
